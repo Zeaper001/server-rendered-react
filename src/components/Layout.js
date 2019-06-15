@@ -6,12 +6,13 @@ export const Layout = ({children}) => {
   return (
     <>
       <Helmet>
-        <htmlAttributes lang="da" />
+        <html lang="da" />
         <meta charSet="utf-8" />
         <title>My Title</title>
         <link rel="canonical" href="http://mysite.com/example" />
       </Helmet>
       <div>
+      Hello world
         {children}
       </div>
     </>

@@ -6,7 +6,6 @@ export class App extends React.Component {
   render() {
     return (
       <Layout>
-        Hello World blabla
       </Layout>
     )
   }
