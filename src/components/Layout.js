@@ -2,17 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Helmet} from "react-helmet";
 
-export const Layout = ({children}) => {
+export const Layout = ({children, title}) => {
   return (
     <>
-      <Helmet>
-        <html lang="da" />
-        <meta charSet="utf-8" />
-        <title>My Title</title>
-        <link rel="canonical" href="http://mysite.com/example" />
-      </Helmet>
       <div>
-      Hello world
+        This is from layout
         {children}
       </div>
     </>
