@@ -4,9 +4,10 @@ const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 module.exports = {
-  entry: './server.js',
+  mode: 'development',
+  entry: './src/server/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'bin'),
     filename: 'server.js',
     publicPath: '/'
   },
