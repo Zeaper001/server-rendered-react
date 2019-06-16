@@ -1,19 +1,24 @@
 import express from "express";
 import path from "path";
 import React from "react";
-import App from "./src/client/App";
+import App from "../client/App";
 import {Helmet} from 'react-helmet';
 import {renderToString} from "react-dom/server";
+import {StaticRouter} from 'react-router-dom';
 
 const app = express();
 
-app.use( express.static( path.resolve( __dirname, "/dist" ) ) );
+app.use(express.static(path.resolve(__dirname, "/dist")));
 
-app.get( "/", (req, res) => {
-    const reactDom = renderToString(<App />);
-
-    res.writeHead(200, {"Content-Type": "text/html"});
-    res.end( htmlTemplate(reactDom) );
+app.get("*", (req, res) => {
+  const context = {};
+  const reactDom = renderToString(
+    <StaticRouter location={req.url} context={context}>
+      <App />
+    </StaticRouter>
+  );
+  res.writeHead(200, {"Content-Type": "text/html"});
+  res.end(htmlTemplate(reactDom));
 });
 
 app.listen( 3000, () => {
