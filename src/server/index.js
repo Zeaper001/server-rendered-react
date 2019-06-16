@@ -8,7 +8,7 @@ import {StaticRouter} from 'react-router-dom';
 
 const app = express();
 
-app.use(express.static("public"));
+app.use(express.static(path.resolve(__dirname, "public")));
 
 app.get("*", (req, res) => {
   const context = {};
