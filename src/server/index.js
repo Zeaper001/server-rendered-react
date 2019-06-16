@@ -1,43 +1,32 @@
-import express from "express";
-import path from "path";
-import React from "react";
-import App from "../client/App";
-import {Helmet} from 'react-helmet';
-import {renderToString} from "react-dom/server";
-import {StaticRouter} from 'react-router-dom';
+import http from 'http';
 
-const app = express();
+let app = require('./server').default;
 
-app.use(express.static(path.resolve(__dirname, "public")));
+const server = http.createServer(app);
 
-app.get("*", (req, res) => {
-  const context = {};
-  const reactDom = renderToString(
-    <StaticRouter location={req.url} context={context}>
-      <App />
-    </StaticRouter>
-  );
-  res.writeHead(200, {"Content-Type": "text/html"});
-  res.end(htmlTemplate(reactDom));
+let currentApp = app;
+
+server.listen(process.env.PORT || 3015, error => {
+  if (error) {
+    console.log(error);
+  }
+
+  console.log('😎   Server has started');
 });
 
-app.listen( 3000, () => {
-  console.log('Server is listening to port 3000')
-});
+if (module.hot) {
+  console.log('✅   Server-side HMR is running');
 
-function htmlTemplate(reactDom) {
-  const helmet = Helmet.renderStatic();
+  module.hot.accept('./server', () => {
+    console.log('🔁   HMR Reloading `./server`...');
 
-  return `<!doctype html>
-  <html ${helmet.htmlAttributes.toString()}>
-    <head>
-      ${helmet.title.toString()}
-      ${helmet.meta.toString()}
-      ${helmet.link.toString()}
-    </head>
-    <body ${helmet.bodyAttributes.toString()}>
-      ${ reactDom }
-    </body>
-  </html>
-  `;
+    try {
+      app = require('./server').default;
+      server.removeListener('request', currentApp);
+      server.on('request', app);
+      currentApp = app;
+    } catch (error) {
+      console.error(error);
+    }
+  });
 }

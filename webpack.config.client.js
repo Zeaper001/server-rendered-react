@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -33,4 +34,7 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new MinifyPlugin()
+  ]
 };

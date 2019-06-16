@@ -19,7 +19,7 @@ export const About = () => {
           <meta name="description" content="Home page description" />
       </Helmet>
       <div className="bg-red">This is the about page</div>
-      <button onClick={() => setSomeText('Hello')}>Click</button>
+      <button onClick={() => console.log('asdas')}>Click</button>
       <div>{someText}</div>
     </Layout>
   )
